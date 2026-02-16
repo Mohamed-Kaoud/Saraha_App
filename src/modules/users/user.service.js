@@ -8,7 +8,6 @@ import { Compare, Hash } from "../../common/utils/security/hash.security.js";
 import { GenerateToken, VerifyToken } from "../../common/utils/token.service.js";
 import { v4 as uuidv4 } from "uuid";
 import * as db_service from "../../DB/db.service.js";
-import { sendEmail } from "../../common/utils/sendEmail.js";
 import userModel from "../../DB/models/user.model.js";
 
 export const signUp = async (req, res) => {
@@ -22,8 +21,6 @@ export const signUp = async (req, res) => {
     throw new Error(`Email ${email} already exist 🔴`, { cause: 400 });
   }
 
-  const otp = Math.random().toString().slice(2, 8);
-
   const user = await db_service.create({
     model: userModel,
     data: {
@@ -32,11 +29,8 @@ export const signUp = async (req, res) => {
       password: Hash({ plain_text: password, salt_rounds: 12 }),
       gender,
       phone: encrypt(phone),
-      otp
     },
   });
-
-    await sendEmail(email, otp);
 
   successResponse({
     res,
