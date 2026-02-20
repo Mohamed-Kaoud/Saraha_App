@@ -1,12 +1,13 @@
 import crypto from "node:crypto"
+import { ENCRYPTION_KEY } from "../../../../config/config.service.js"
 
-const ENCRYPTION_KEY = Buffer.from("123$%#432@#$65*&^%456^%$345^&*#4")
+const ENCRYPTION_KEY_Buffer = Buffer.from(ENCRYPTION_KEY)
 const IV_LENGTH = 16
 
 export function encrypt(text) {
     const iv = crypto.randomBytes(IV_LENGTH)
 
-    const cipher = crypto.createCipheriv("aes-256-cbc",ENCRYPTION_KEY,iv)
+    const cipher = crypto.createCipheriv("aes-256-cbc",ENCRYPTION_KEY_Buffer,iv)
 
     let encrypted = cipher.update(text,"utf8","hex")
 
@@ -20,7 +21,7 @@ export function decrypt(text) {
 
     const iv = Buffer.from(ivHex,"hex")
 
-    const decipher = crypto.createDecipheriv("aes-256-cbc",ENCRYPTION_KEY,iv)
+    const decipher = crypto.createDecipheriv("aes-256-cbc",ENCRYPTION_KEY_Buffer,iv)
 
     let decrypted = decipher.update(encryptedText,"hex","utf8")
 
