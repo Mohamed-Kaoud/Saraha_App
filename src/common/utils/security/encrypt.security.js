@@ -1,7 +1,10 @@
 import crypto from "node:crypto"
 import { ENCRYPTION_KEY } from "../../../../config/config.service.js"
 
-const ENCRYPTION_KEY_Buffer = Buffer.from(ENCRYPTION_KEY)
+const ENCRYPTION_KEY_Buffer = crypto
+  .createHash("sha256")
+  .update(ENCRYPTION_KEY)
+  .digest()
 const IV_LENGTH = 16
 
 export function encrypt(text) {
