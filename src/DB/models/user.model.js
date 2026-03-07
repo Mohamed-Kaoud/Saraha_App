@@ -1,5 +1,9 @@
 import mongoose from "mongoose";
-import { genderEnum, providerEnum, roleEnum } from "../../common/enum/user.enum.js";
+import {
+  genderEnum,
+  providerEnum,
+  roleEnum,
+} from "../../common/enum/user.enum.js";
 
 const userSchema = new mongoose.Schema(
   {
@@ -38,15 +42,24 @@ const userSchema = new mongoose.Schema(
       enum: Object.values(providerEnum),
       default: providerEnum.system,
     },
-    role:{
+    role: {
       type: String,
       enum: Object.values(roleEnum),
-      default: roleEnum.user
+      default: roleEnum.user,
     },
     phone: {
       type: String,
     },
-    profilePicture: String,
+    profilePicture: {
+      secure_url: { type: String, required: true },
+      public_id: { type: String, required: true },
+    },
+    coverPictures: [
+      {
+        secure_url: { type: String, required: true },
+        public_id: { type: String, required: true },
+      },
+    ],
     confirmed: Boolean,
   },
   {

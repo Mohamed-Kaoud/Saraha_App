@@ -1,6 +1,7 @@
 import { VerifyToken } from "../utils/token.service.js";
 import * as db_service from "../../DB/db.service.js";
 import userModel from "../../DB/models/user.model.js";
+import { ACCESS_SECRET_KEY, PREFIX } from "../../../config/config.service.js";
 
 export const authentication = async (req, res, next) => {
   const { authorization } = req.headers;
@@ -9,7 +10,12 @@ export const authentication = async (req, res, next) => {
     throw new Error("Token is required 🔴", { cause: 400 });
   }
 
-  const decoded = VerifyToken({ token: authorization, secret_key: "mohamed" });
+  const [prefix,token] = authorization.split(" ")
+  if(prefix !== PREFIX){
+    throw new Error("Ivalid prefix" , {cause: 400})
+  }
+
+  const decoded = VerifyToken({token , secret_key: ACCESS_SECRET_KEY})
 
   if (!decoded || !decoded?.id) {
     throw new Error("Invalid token ❎", { cause: 400 });
