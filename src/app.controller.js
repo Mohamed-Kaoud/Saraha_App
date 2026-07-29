@@ -9,7 +9,7 @@ import messageRouter from "./modules/messages/message.controller.js";
 const app = express();
 const port = process.env.PORT;
 
-const bootstrap = () => {
+const bootstrap = async () => {
   app.use(express.json(),cors());
 
   await redisConnection()
