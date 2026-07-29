@@ -2,7 +2,7 @@ import mongoose from "mongoose";
 
 const dbConnection = async () => {
   await mongoose
-    .connect(process.env.DB_URI, { serverSelectionTimeoutMS: 10000 })
+    .connect(process.env.DB_URI)
     .then(() => {
       console.log(`DB connected successfully ✅`);
     })

@@ -12,8 +12,8 @@ const port = process.env.PORT;
 const bootstrap = () => {
   app.use(express.json(),cors());
 
-  redisConnection()
-  dbConnection();
+  await redisConnection()
+  await dbConnection();
 
   app.get("/", (req, res) => {
     res.status(200).json({ message: "Welcome on Saraha App 😍🤩" });
